@@ -10,11 +10,14 @@ let tasks = [
 // CI test change 
 // Welcome message from main branch
 app.get('/', (req, res) => {
-  res.json({ message: "Welcome from Main" });
+  res.json({ message: "Welcome to lab2" });
 });
 
 // Refactored routing logic from feature branch
 const tasksRouter = require('./routes/tasks');
 app.use('/tasks', tasksRouter);
 
-app.listen(3000, () => console.log("API running on port 3000"));
+if (require.main === module) {
+ app.listen(3000, () => console.log("API running on port 3000"));
+}
+module.exports = app;
