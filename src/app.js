@@ -10,9 +10,10 @@ let tasks = [
 ];
 
 app.get('/', (req, res) => {
-  res.json({ message: "DevOps Task Manager API is running (lab1)" });
+  res.json({ message: "Welcome from Main" });
 });
-
+const tasksRouter = require('./routes/tasks');
+app.use('/tasks', tasksRouter); 
 app.get('/tasks', (req, res) => {
   res.json(tasks);
 });
