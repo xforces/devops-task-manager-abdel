@@ -2,7 +2,7 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/docker]
   pull_request:
     branches: [main]
 
@@ -31,11 +31,11 @@ jobs:
       - name: Run tests
         run: npm test
       
-      - name: Login to GitHub Container Registry
+      - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Build and push Docker image
@@ -44,6 +44,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/kanass20/task-manager-api:latest
-            ghcr.io/kanass20/task-manager-api:prod
-
+            ghcr.io/${{ github.repository_owner }}/task-manager-api:latest
+            ghcr.io/${{ github.repository_owner }}/task-manager-api:${{ github.sha }}
