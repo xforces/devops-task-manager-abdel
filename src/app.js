@@ -4,23 +4,17 @@ app.use(express.json());
 
 let tasks = [
   { id: 1, title: "Initial task", completed: true },
-  { id: 2, title: "Install Git and Node.js", "completed": true },
-  { id: 2, title: "Learn DevOps basics", completed: false }
-  
+  { id: 2, title: "Install Git and Node.js", completed: true },
+  { id: 3, title: "Learn DevOps basics", completed: false }
 ];
 
+// Welcome message from main branch
 app.get('/', (req, res) => {
-  res.json({ message: "Welcome From feature branch" });
+  res.json({ message: "Welcome from Main" });
 });
 
-app.get('/tasks', (req, res) => {
-  res.json(tasks);
-});
+// Refactored routing logic from feature branch
+const tasksRouter = require('./routes/tasks');
+app.use('/tasks', tasksRouter);
 
-app.post('/tasks', (req, res) => {
-  const newTask = { id: tasks.length+1, title: req.body.title, completed: false };
-  tasks.push(newTask);
-  res.status(201).json(newTask);
-});
-
-app.listen(3000, ()=> console.log("API running on port 3000"));
+app.listen(3000, () => console.log("API running on port 3000"));
